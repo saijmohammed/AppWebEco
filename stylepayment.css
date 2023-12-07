@@ -1,0 +1,132 @@
+/* Styles pour les colonnes */
+.container {
+    display: flex;
+    height: auto;
+    gap: 20px; /* Espace entre les colonnes */
+  }
+  
+  .left {
+    width: 60%;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    padding: 20px;
+  }
+  
+  .right {
+    width: 40%;
+    background-color: #eaeaea;
+    border-radius: 6px;
+    padding: 20px;
+  }
+  
+  /* Styles pour les produits */
+  .divproduct1 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; /* Espace entre les produits */
+  }
+  
+  .divproduct {
+    width: calc(50% - 10px); /* 2 produits par ligne */
+    height: auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .divproduct h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .product-details {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .imgpanier {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    background-color: lightblue;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Animation de transformation */
+  }
+  
+  button:hover {
+    transform: scale(1.1);
+  }
+  
+  button:active {
+    transform: scale(0.9);
+  }
+  
+  .price {
+    display: block;
+    color: orange;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .btnback a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .btnback {
+    width: 120px;
+    height: 35px;
+    color: white;
+    background: rgb(202, 193, 193);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animations */
+  }
+  
+  .btnback:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btnback:active {
+    transform: scale(0.9);
+  }
+  
+  .total-amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: orangered;
+  }
+  
+  .no-product-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+  }
+  
+  .Noproduct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+  
+  .Noproduct img {
+    max-width: 100%;
+    height: auto;
+  }
+  

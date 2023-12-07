@@ -1,0 +1,80 @@
+/* Style général du conteneur des détails du produit */
+.product-details {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 70%;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Style du titre */
+.product-details h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Style de l'image */
+.image-container img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+}
+
+/* Style des informations du produit */
+.info-container {
+  text-align: center;
+}
+
+.info-container p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Style du prix */
+.price {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+/* Style de la description */
+.description {
+  font-style: italic;
+}
+
+/* Style du bouton de retour */
+.btnback a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.btnback {
+  width: 150px;
+  height: 40px;
+  color: white;
+  background: #3498db;
+  display: block;
+  margin: 20px auto;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btnback:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.btnback:active {
+  transform: scale(0.9);
+}

@@ -1,0 +1,128 @@
+/* Style général du conteneur de produit */
+
+.product {
+  width: calc(20%-10px);
+  display: flex;
+}
+.product-details {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  width: auto;
+  height: auto;
+  margin: 20px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style des boutons */
+.button-container button {
+  padding: 8px 15px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* Style du titre */
+.product-details h4 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style des paragraphes */
+.product-details p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* Style du lien dans le bouton "Voir les détails" */
+.button-container button a {
+  text-decoration: none;
+  font-size: 14px;
+  color: black;
+}
+
+.button-container button a:hover {
+  text-decoration: underline;
+}
+
+button:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Ombre plus subtile pour le survol */
+  transform: scale(1.1);
+}
+
+button:active{
+ transform: scale(0.9);
+}
+
+.product-details:hover {
+  transform: translate(0, -5px); /* Translation vers le haut */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Ombre */
+  cursor: pointer;
+}
+
+/* Style pour centrer l'image */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px; /* Espacement entre l'image et les autres éléments */
+}
+
+/* Style de l'image */
+.product-image {
+  box-shadow: 0px 0px 5px black;
+  width: 250px;
+  /* Autres styles selon vos besoins */
+}
+.h2section {
+  color: white;
+  width: 100%;
+  height: auto;
+  margin: 10px;
+  text-align: center;
+  background-color: #333;
+}
+/* Style du bouton "Ajouter au Panier" */
+.addpanier {
+  background-color: orange;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style du bouton "Voir les détails" */
+.affdetails {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+  background-color: #a8a1a1;
+}
+.button-container .affdetails a {
+  text-decoration: none;
+}
+
+.button-container button a:hover {
+  text-decoration: underline;
+}
+
+.price{
+  color: orange;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#nombreProduitsPanier {
+  position: absolute;
+  top: 22px;
+  right: 360px;
+  background-color: #ccc;
+  color: black;
+  border-radius: 10px;
+  padding: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
