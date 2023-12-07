@@ -15,7 +15,6 @@
 
             <?php
             require_once('connection.php');
-            session_start();
             $currentUserId = 1; // Exemple d'ID utilisateur - à adapter
             $query = "SELECT products.id, products.product_name, products.price, products.description, products.product_image, products.quantitate, panier.quantity
           FROM products

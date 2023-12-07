@@ -35,7 +35,6 @@
   
   form {
     display: flex;
-    margin: 0;
   }
   
   input[type="search"] {
@@ -150,4 +149,16 @@ li:hover .submenu {
   /* background-color: #ffcc00; */
   margin: 6px;
   display: block; /* Assure que les marges fonctionnent comme attendu */
+}
+
+#nombreProduitsPanier {
+  position: absolute;
+  margin-top: -10px;
+  margin-left: -95px;
+  background-color: #ccc;
+  color: black;
+  border-radius: 50%;
+  padding: 3px;
+  font-size: 12px;
+  font-weight: bold;
 }

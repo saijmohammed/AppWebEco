@@ -28,7 +28,6 @@
 
 /* Style du titre */
 .product-details h4 {
-  font-size: 24px;
   color: #333;
   margin-bottom: 10px;
 }
@@ -115,14 +114,6 @@ button:active{
   font-size: 16px;
 }
 
-#nombreProduitsPanier {
-  position: absolute;
-  top: 22px;
-  right: 360px;
-  background-color: #ccc;
-  color: black;
-  border-radius: 10px;
-  padding: 3px;
-  font-size: 12px;
-  font-weight: bold;
-}
+
+
+

@@ -5,17 +5,16 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="stye eco.css" />
+        <link rel="stylesheet" href="stye eco.css">
         <link rel="stylesheet" href="product.css">
-        <link rel="icon " href="photo/casque1.jpg">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <title>ShoppingPlanet</title>
     </head>
 
     <body>
         <header>
-            <div class="category-logo">
-                <a href="#"><i class="fas fa-user"></i></a>
+            <div class="compte">
+                <a><i class="fas fa-user"></i></a>
             </div>
             <div class="logo">
                 <h1><a href="home.php">ShoppingPlanet</a></h1>
@@ -36,13 +35,11 @@
                     <li>
                         <a href="produit1.php"><i class="fas fa-shopping-bag"></i> Produits</a>
                         <ul class="submenu">
-                            <hr>
                             <li><a href="#section1">Claviers</a></li>
                             <hr>
                             <li><a href="#section2">Écouteurs</a></li>
                             <hr>
                             <li><a href="#section3">Souris</a></li>
-                            <hr>
                             <!-- Ajoutez autant d'options que nécessaire -->
                         </ul>
                     </li>
@@ -56,9 +53,7 @@
                     <li>
                         <a href="#"><i class="fas fa-sign-in-alt"></i> Connexion</a>
                     </li>
-                    <div class="compte">
-                        <a><i class="fas fa-user"></i></a>
-                    </div>
+
                 </ul>
             </nav>
         </header>
@@ -149,9 +144,9 @@
                 echo '</div>';
                 echo '<h4>Name product: ' . htmlspecialchars($row['product_name']) . '</h4>';
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
-                echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
+                echo '<p id="errorMessage" class="quantity">Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ')">Ajouter au Panier</button>';
+                echo '<button id="addToCartButton" class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ')">Ajouter au Panier</button>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>        ';
                 echo '</div>';
                 echo '</div>';
@@ -216,6 +211,28 @@
             };
             xhr.send('product_id=' + productId);
         }
+
+
+
+        function displayErrorMessage() {
+            // Sélectionner l'élément où vous souhaitez afficher le message d'erreur
+            var errorMessageElement = document.getElementById('errorMessage');
+
+            // Afficher le message d'erreur
+            errorMessageElement.innerText = 'Quantité maximale atteinte dans le panier';
+            errorMessageElement.style.color = 'red'; // Modifier la couleur du texte en rouge, par exemple
+        }
+
+        function modifyButtonStyle() {
+            // Sélectionner le bouton que vous souhaitez modifier
+            var addButton = document.getElementById('addToCartButton');
+
+            // Modifier le style du bouton pour indiquer la quantité maximale atteinte
+            addButton.style.backgroundColor = 'gray'; // Modifier la couleur du fond, par exemple
+            addButton.disabled = true; // Désactiver le bouton pour empêcher d'autres ajouts
+        }
+
+
 
         function addNewProductToCart(productId) {
             // Code pour ajouter un nouveau produit au panier
