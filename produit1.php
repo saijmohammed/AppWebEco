@@ -1,4 +1,3 @@
-<body>
     <!DOCTYPE html>
     <html lang="fr">
 
@@ -81,7 +80,7 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ')">Ajouter au Panier</button>';
+                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>';
                 echo '</div>';
                 echo '</div>';
@@ -113,7 +112,7 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ')">Ajouter au Panier</button>';
+                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>        ';
                 echo '</div>';
                 echo '</div>';
@@ -146,7 +145,7 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p id="errorMessage" class="quantity">Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button id="addToCartButton" class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ')">Ajouter au Panier</button>';
+                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>        ';
                 echo '</div>';
                 echo '</div>';
@@ -190,7 +189,7 @@
 
 
 
-        function addToCart(productId) {
+        function addToCart(productId, element) {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'verifier_panier.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -200,7 +199,12 @@
                         var response = JSON.parse(xhr.responseText);
                         if (response.exists) {
                             var data = response.quantity;
-                            updateQuantityInCart(productId, data);
+                            if (data < response.availableQuantity) {
+                                updateQuantityInCart(productId, data);
+                            } else {
+                                displayErrorMessage(element);
+                                modifyButtonStyle(element);
+                            }
                         } else {
                             addNewProductToCart(productId);
                         }
@@ -213,24 +217,15 @@
         }
 
 
-
-        function displayErrorMessage() {
-            // Sélectionner l'élément où vous souhaitez afficher le message d'erreur
-            var errorMessageElement = document.getElementById('errorMessage');
-
-            // Afficher le message d'erreur
-            errorMessageElement.innerText = 'Quantité maximale atteinte dans le panier';
-            errorMessageElement.style.color = 'red'; // Modifier la couleur du texte en rouge, par exemple
+        function displayErrorMessage(element) {
+            element.innerText = 'Quantité maximale atteinte dans le panier';
+            element.style.color = 'red';
         }
 
-        function modifyButtonStyle() {
-            // Sélectionner le bouton que vous souhaitez modifier
-            var addButton = document.getElementById('addToCartButton');
-
-            // Modifier le style du bouton pour indiquer la quantité maximale atteinte
-            addButton.style.backgroundColor = 'gray'; // Modifier la couleur du fond, par exemple
-            addButton.disabled = true; // Désactiver le bouton pour empêcher d'autres ajouts
+        function modifyButtonStyle(element) {
+            element.disabled = true;
         }
+
 
 
 

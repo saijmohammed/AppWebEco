@@ -12,8 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $quantity = $row['quantity']; // Récupérer la quantité actuelle du produit
-        echo json_encode(array('exists' => true, 'quantity' => $quantity));
+        $quantity = $row['quantity']; // Récupérer la quantité actuelle du produit dans le panier
+
+        // Récupérer la quantité disponible du produit dans la table products
+        $queryProduct = "SELECT quantitate FROM products WHERE id = $productId";
+        $resultProduct = mysqli_query($conn, $queryProduct);
+
+        if ($resultProduct && mysqli_num_rows($resultProduct) > 0) {
+            $rowProduct = mysqli_fetch_assoc($resultProduct);
+            $availableQuantity = $rowProduct['quantitate']; // Récupérer la quantité disponible du produit
+            echo json_encode(array('exists' => true, 'quantity' => $quantity, 'availableQuantity' => $availableQuantity));
+        } else {
+            echo json_encode(array('exists' => false, 'message' => 'Quantité disponible non trouvée pour ce produit'));
+        }
     } else {
         echo json_encode(array('exists' => false, 'message' => 'Produit non trouvé dans le panier'));
     }
@@ -21,4 +32,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     // Retourner une réponse d'erreur si nécessaire
     echo json_encode(array('error' => 'Requête invalide'));
 }
-?>
