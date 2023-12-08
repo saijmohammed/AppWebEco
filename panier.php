@@ -43,11 +43,28 @@
             echo '<td>' . $productNumber . '</td>';
             echo '<td><img class="imgpanier" src="' . htmlspecialchars($row['product_image']) . '" alt="' . htmlspecialchars($row['product_name']) . '" /></td>';
             echo '<td>' . $row['product_name'] . '</td>';
+            // Récupérer la quantité disponible du produit depuis la base de données
+            $productId = $row['id'];
+            $queryProduct = "SELECT quantitate FROM products WHERE id = $productId";
+            $resultProduct = mysqli_query($conn, $queryProduct);
+            $rowProduct = mysqli_fetch_assoc($resultProduct);
+            $availableQuantity = $rowProduct['quantitate'];
             echo '<td>';
             echo '<form method="post" action="panier.php">';
-            echo '<input type="number" min="1" name="new_quantity" value="' . $row['quantity'] . '">';
             echo '<input type="hidden" name="update_quantity" value="' . $row['id'] . '">';
-            echo '<input type="submit" value="Mettre à jour quantite">';
+            echo '<button class="quantiteless" type="submit" name="new_quantity_less">';
+            echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+            </svg>';
+            echo '</button>';
+            echo '<span class="spanquantity">' . $row['quantity'] . '</span>';
+            echo '<button class="quantiteplus" type="submit" name="new_quantity_plus">';
+            echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>';
+            echo '</button>';
             echo '</form>';
             echo '</td>';
             echo '<td>' . $row['price'] * $row['quantity'] . ' $</td>';
@@ -90,18 +107,66 @@
         }
 
         // Modification de la quantité d'un produit dans le panier
-        if (isset($_POST['update_quantity'])) {
+        // ... Update quantité (+)
+
+        // Traitement pour l'incrémentation de la quantité
+        if (isset($_POST['new_quantity_plus'])) {
             $productId = $_POST['update_quantity'];
-            $newQuantity = $_POST['new_quantity'];
 
-            $updateQuery = "UPDATE panier SET quantity = $newQuantity WHERE product_id = $productId";
-            $updateResult = mysqli_query($conn, $updateQuery);
+            // Récupérer la quantité actuelle du produit dans le panier
+            $currentQuantityQuery = "SELECT quantity FROM panier WHERE product_id = $productId";
+            $currentQuantityResult = mysqli_query($conn, $currentQuantityQuery);
+            $currentQuantityRow = mysqli_fetch_assoc($currentQuantityResult);
+            $currentQuantity = $currentQuantityRow['quantity'];
 
-            if ($updateResult) {
-                header("Location: panier.php");
-                exit();
+            // Récupérer la quantité disponible dans le stock pour ce produit
+            $availableQuantityQuery = "SELECT quantitate FROM products WHERE id = $productId";
+            $availableQuantityResult = mysqli_query($conn, $availableQuantityQuery);
+            $availableQuantityRow = mysqli_fetch_assoc($availableQuantityResult);
+            $availableQuantity = $availableQuantityRow['quantitate'];
+
+            $totalQuantity = $currentQuantity + 1;
+            // Vérifier si la quantité totale ne dépasse pas la quantité disponible
+            if ($totalQuantity <= $availableQuantity) {
+                // Mettre à jour la quantité dans le panier en ajoutant 1
+                $updateQuery = "UPDATE panier SET quantity = quantity + 1 WHERE product_id = $productId";
+                $updateResult = mysqli_query($conn, $updateQuery);
+
+                if ($updateResult) {
+                    header("Location: panier.php");
+                    exit();
+                } else {
+                    echo 'Erreur lors de l\'incrémentation de la quantité.';
+                }
             } else {
-                echo 'Erreur lors de la mise à jour de la quantité.';
+                echo 'Quantité non disponible en stock.';
+            }
+        }
+
+        // Traitement pour la décrémentation de la quantité
+        if (isset($_POST['new_quantity_less'])) {
+            $productId = $_POST['update_quantity'];
+
+            // Récupérer la quantité actuelle du produit dans le panier
+            $currentQuantityQuery = "SELECT quantity FROM panier WHERE product_id = $productId";
+            $currentQuantityResult = mysqli_query($conn, $currentQuantityQuery);
+            $currentQuantityRow = mysqli_fetch_assoc($currentQuantityResult);
+            $currentQuantity = $currentQuantityRow['quantity'];
+
+            // Vérifier si la quantité dans le panier est supérieure à zéro
+            if ($currentQuantity > 1) {
+                // Mettre à jour la quantité dans le panier en soustrayant 1
+                $updateQuery = "UPDATE panier SET quantity = GREATEST(quantity - 1, 0) WHERE product_id = $productId";
+                $updateResult = mysqli_query($conn, $updateQuery);
+
+                if ($updateResult) {
+                    header("Location: panier.php");
+                    exit();
+                } else {
+                    echo 'Erreur lors de la décrémentation de la quantité.';
+                }
+            } else {
+                echo 'La quantité actuelle dans le panier est déjà de zéro.';
             }
         }
     }
