@@ -18,6 +18,9 @@
 
 /* Style des boutons */
 .button-container button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px 15px;
   margin-right: 10px;
   border: none;
@@ -25,6 +28,14 @@
   border-radius: 3px;
 }
 
+.inline-form {
+  display: inline;
+}
+
+.button-container form,
+.button-container button {
+    display: inline-block;
+}
 /* Style du titre */
 .product-details h4 {
   color: #333;

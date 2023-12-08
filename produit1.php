@@ -21,7 +21,7 @@
             <div class="search-box">
                 <form>
                     <input type="search" id="search" name="search" placeholder="Rechercher des produits" />
-                    <button type="submit" class="button" name="search">
+                    <button id="submitsearch" type="submit" class="button" name="search">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -63,6 +63,7 @@
     <section id="section1">
         <h2 class="h2section">Claviers</h2>
         <?php
+        session_start();
         // Inclure votre fichier de connexion à la base de données
         require_once('connection.php');
         $id = 1;
@@ -80,7 +81,10 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
+                echo '<form method="post" class="inline-form">';
+                echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+                echo '<button class="addpanier" type="submit" name="add_to_cart" data-product-id="' . $row['id'] . '">Ajouter au Panier</button>';
+                echo '</form>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>';
                 echo '</div>';
                 echo '</div>';
@@ -95,8 +99,6 @@
     <section id="section2">
         <h2 class="h2section">Écouteurs</h2>
         <?php
-        // Inclure votre fichier de connexion à la base de données
-        require_once('connection.php');
 
         // Récupérer les produits depuis la base de données
         $query = "SELECT * FROM products WHERE categories = 'headphones'";
@@ -112,7 +114,10 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
+                echo '<form method="post">';
+                echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+                echo '<button class="addpanier" type="submit" name="add_to_cart" data-product-id="' . $row['id'] . '">Ajouter au Panier</button>';
+                echo '</form>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>        ';
                 echo '</div>';
                 echo '</div>';
@@ -128,8 +133,6 @@
     <section id="section3">
         <h2 class="h2section">Souris</h2>
         <?php
-        // Inclure votre fichier de connexion à la base de données
-        require_once('connection.php');
 
         // Récupérer les produits depuis la base de données
         $query = "SELECT * FROM products WHERE categories = 'mouses'";
@@ -145,7 +148,10 @@
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p id="errorMessage" class="quantity">Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
-                echo '<button class="addpanier" onclick="addToCart(' . htmlspecialchars($row['id']) . ', this)">Ajouter au Panier</button>';
+                echo '<form method="post">';
+                echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+                echo '<button class="addpanier" type="submit" name="add_to_cart" data-product-id="' . $row['id'] . '">Ajouter au Panier</button>';
+                echo '</form>';
                 echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>        ';
                 echo '</div>';
                 echo '</div>';
@@ -155,113 +161,89 @@
         }
 
 
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+            $currentUserId = 1; // Exemple d'ID utilisateur - à adapter
+            $productId = $_POST['product_id'];
+
+            // Vérifier si le produit existe déjà dans le panier de l'utilisateur actuel
+            $query = "SELECT * FROM panier WHERE product_id = $productId AND user_id = $currentUserId";
+            $result = mysqli_query($conn, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Si le produit existe déjà dans le panier, mettez à jour la quantité
+                $row = mysqli_fetch_assoc($result);
+                $quantity = $row['quantity']; // Récupérer la quantité actuelle du produit dans le panier
+
+                // Récupérer la quantité disponible du produit dans la table products
+                $queryProduct = "SELECT quantitate FROM products WHERE id = $productId";
+                $resultProduct = mysqli_query($conn, $queryProduct);
+
+                if ($resultProduct && mysqli_num_rows($resultProduct) > 0) {
+                    $rowProduct = mysqli_fetch_assoc($resultProduct);
+                    $availableQuantity = $rowProduct['quantitate']; // Récupérer la quantité disponible du produit
+
+                    if ($quantity < $availableQuantity) {
+                        // Augmenter la quantité du produit dans le panier
+                        $newQuantity = $quantity + 1;
+                        $updateQuery = "UPDATE panier SET quantity = $newQuantity WHERE product_id = $productId AND user_id = $currentUserId";
+                        $updateResult = mysqli_query($conn, $updateQuery);
+
+                        if ($updateResult) {
+                            echo 'La quantité du produit a été mise à jour dans le panier avec succès';
+                        } else {
+                            echo 'Erreur lors de la mise à jour de la quantité dans le panier';
+                        }
+                    } else {
+                        // Si la quantité maximale en stock est atteinte, afficher un message d'erreur via JavaScript
+                        echo '<script>';
+                        echo 'document.addEventListener(\'DOMContentLoaded\', function() {';
+                        echo '    var button = document.querySelector(\'.addpanier[data-product-id="' . $productId . '"]\');';
+                        echo '    button.style.color = \'red\';';
+                        echo '    button.innerText  = \'Maximum quantity\';';
+                        echo '    button.disabled = true;'; // Désactiver le bouton
+                        echo '});';
+                        echo '</script>';
+                    }
+                } else {
+                    //gestion d'erreur 
+                }
+            } else {
+                // Si le produit n'existe pas dans le panier, l'ajouter au panier avec une quantité initiale
+                $selectedQuantity = 1; // Par défaut, ajoutez une seule unité - vous pouvez adapter cela selon votre logique
+                $insertQuery = "INSERT INTO panier (user_id, product_id, quantity) VALUES ($currentUserId, $productId, $selectedQuantity)";
+                $insertResult = mysqli_query($conn, $insertQuery);
+            }
+        } else {
+            //gestion d'erreur 
+        }
+
+
+        // obtenir_nombre_produits_panier.php
+
+        $currentUserId = 1; // Exemple d'ID utilisateur - à adapter
+
+        $query = "SELECT SUM(quantity) AS total_items FROM panier WHERE user_id = $currentUserId";
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalItems = $row['total_items']; // Nombre total d'articles dans le panier
+        } else {
+            $totalItems = 0;
+        }
+
+
         ?>
+
     </section>
 
     </html><!-- La page affiche les produits avec un bouton "Ajouter au panier" pour chaque produit -->
 
     <script>
-        function updateCartItemCount() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'obtenir_nombre_produits_panier.php', true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var itemCount = parseInt(xhr.responseText);
-                        if (!isNaN(itemCount)) {
-                            document.getElementById('nombreProduitsPanier').innerText = itemCount;
-                            // Mettre à jour le contenu de l'élément HTML avec le nouveau nombre d'articles
-                        } else {
-                            console.log('Réponse non numérique');
-                        }
-                    } else {
-                        console.log('Erreur de la requête');
-                    }
-                }
-            };
-            xhr.send();
-        }
-
+        // JavaScript ici pour utiliser le résultat PHP, par exemple :
+        var itemCount = <?php echo $totalItems; ?>;
         document.addEventListener('DOMContentLoaded', function() {
-            // Appeler la fonction pour mettre à jour le nombre de produits au chargement de la page
-            updateCartItemCount();
+            document.getElementById('nombreProduitsPanier').innerText = itemCount;
         });
-
-
-
-        function addToCart(productId, element) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'verifier_panier.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.exists) {
-                            var data = response.quantity;
-                            if (data < response.availableQuantity) {
-                                updateQuantityInCart(productId, data);
-                            } else {
-                                displayErrorMessage(element);
-                                modifyButtonStyle(element);
-                            }
-                        } else {
-                            addNewProductToCart(productId);
-                        }
-                    } else {
-                        console.log('Erreur de la requête');
-                    }
-                }
-            };
-            xhr.send('product_id=' + productId);
-        }
-
-
-        function displayErrorMessage(element) {
-            element.innerText = 'Quantité maximale atteinte dans le panier';
-            element.style.color = 'red';
-        }
-
-        function modifyButtonStyle(element) {
-            element.disabled = true;
-        }
-
-
-
-
-        function addNewProductToCart(productId) {
-            // Code pour ajouter un nouveau produit au panier
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'ajouter_panier.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // Mettre à jour l'interface utilisateur si nécessaire
-                        updateCartItemCount(); // Mettre à jour le nombre de produits dans le panier
-                    } else {
-                        console.log('Erreur lors de l\'ajout au panier');
-                    }
-                }
-            };
-            xhr.send('product_id=' + productId);
-        }
-
-        function updateQuantityInCart(productId, currentQuantity) {
-            var newQuantity = parseInt(currentQuantity) + 1;
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'mettre_a_jour_quantite_panier.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // Mettre à jour l'interface utilisateur si nécessaire
-                        updateCartItemCount(); // Mettre à jour le nombre de produits dans le panier
-                    } else {
-                        console.log('Erreur lors de la mise à jour de la quantité dans le panier');
-                    }
-                }
-            };
-            xhr.send('product_id=' + productId + '&new_quantity=' + newQuantity);
-        }
     </script>

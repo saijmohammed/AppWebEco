@@ -24,7 +24,7 @@
             <div class="search-box">
                 <form>
                     <input type="search" id="search" name="search" placeholder="Rechercher des produits" />
-                    <button type="submit" class="button" name="search">
+                    <button id="submitsearch" type="submit" class="button" name="search">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>

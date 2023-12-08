@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Informations de connexion à la base de données
 $servername = "localhost"; // Nom du serveur MySQL
