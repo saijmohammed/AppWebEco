@@ -47,7 +47,9 @@
             echo '<div class="info-container">';
             echo '<p class="price">Prix: ' . $row['price'] . '</p>';
             echo '<p class="quantity">Quantité: ' . $row['quantitate'] . '</p>';
-            echo '<p class="description">Description: ' . $row['description'] . '</p>';
+            echo '<div class="description-container">';
+            echo '<h4>Description: </h4> <p class="description">' . $row['description'] . '</p>';
+            echo '</div>';
             echo '<div class="image-buttons">';
             echo '<button class="btnback" ><a href="produit1.php">Back To Product</a></button>';
             echo '</div>';
@@ -60,11 +62,7 @@
         echo "Aucun ID de produit fourni.";
     }
     ?>
-
-
     
-
-
 </body>
 
 </html>

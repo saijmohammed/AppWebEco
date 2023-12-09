@@ -1,80 +1,90 @@
-/* Style général du conteneur des détails du produit */
+/* styledetails.css */
+
+/* Style pour la section des détails du produit */
 .product-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 20px;
-  width: 70%;
-  margin: 20px auto;
   background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
 }
 
-/* Style du titre */
+/* Style pour le titre du produit */
 .product-details h2 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-/* Style de l'image */
-.image-container img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  display: block;
-  margin: 0 auto 20px;
-  border-radius: 8px;
-}
-
-/* Style des informations du produit */
-.info-container {
-  text-align: center;
-}
-
-.info-container p {
-  font-size: 18px;
-  color: #555;
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
-/* Style du prix */
+/* Style pour le conteneur de l'image */
+.image-container {
+  text-align: center;
+}
+
+/* Style pour l'image du produit */
+#product-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les informations du produit */
+.info-container {
+  margin-top: 15px;
+}
+
+/* Style pour le prix */
 .price {
-  font-weight: bold;
-  color: #e74c3c;
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
-/* Style de la description */
-.description {
-  font-style: italic;
+/* Style pour la quantité */
+.quantity {
+  font-size: 16px;
+  margin-bottom: 12px;
 }
 
-/* Style du bouton de retour */
-.btnback a {
+/* Style pour le conteneur de la description */
+.description-container {
+  margin-bottom: 10px;
+  display: flex;
+  /* align-items: center; */
+}
+
+/* Style pour le titre de la description */
+.description-container h4 {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* Style pour la description du produit */
+.description-container p.description {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Style pour les boutons */
+.image-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Style pour le bouton de retour */
+.btnback {
+  padding: 10px 20px;
+  font-size: 16px;
   text-decoration: none;
   color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.btnback {
-  width: 150px;
-  height: 40px;
-  color: white;
-  background: #3498db;
-  display: block;
-  margin: 20px auto;
-  border-radius: 6px;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
+/* Style pour le bouton de retour au survol */
 .btnback:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.btnback:active {
-  transform: scale(0.9);
+  background-color: #0056b3;
 }

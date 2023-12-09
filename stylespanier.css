@@ -142,7 +142,17 @@ input[type="number"] {
 /* CSS pour le span affichant la quantité */
 .spanquantity {
   text-align: center;
-  margin: 0 10px; 
-  font-weight: bold; 
+  margin: 0 10px;
+  font-weight: bold;
+  line-height: 20px;
 }
 
+.error-message {
+  background-color: #ff9999;
+  color: #cc0000;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}

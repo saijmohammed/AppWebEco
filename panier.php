@@ -71,7 +71,7 @@
             echo '<td>';
             echo '<form method="post" action="panier.php">';
             echo '<input  type="hidden" name="remove_product" value="' . $row['id'] . '">';
-            echo '<input class="btnremove" type="submit" value="X">';
+            echo '<input class="btnremove" type="submit" name="remove_btn" value="X">';
             echo '</form>';
             echo '</td>';
             echo '</tr>';
@@ -89,9 +89,10 @@
         echo '</div>';
     }
 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Suppression d'un produit du panier
-        if (isset($_POST['remove_product'])) {
+        if (isset($_POST['remove_btn'])) {
             $productId = $_POST['remove_product'];
             $currentUserId = 1; // Exemple d'ID utilisateur - à adapter
 
@@ -101,8 +102,6 @@
             if ($result) {
                 header("Location: panier.php");
                 exit();
-            } else {
-                echo 'Erreur lors de la suppression du produit du panier';
             }
         }
 
@@ -110,6 +109,7 @@
         // ... Update quantité (+)
 
         // Traitement pour l'incrémentation de la quantité
+        $error = "";
         if (isset($_POST['new_quantity_plus'])) {
             $productId = $_POST['update_quantity'];
 
@@ -125,9 +125,8 @@
             $availableQuantityRow = mysqli_fetch_assoc($availableQuantityResult);
             $availableQuantity = $availableQuantityRow['quantitate'];
 
-            $totalQuantity = $currentQuantity + 1;
             // Vérifier si la quantité totale ne dépasse pas la quantité disponible
-            if ($totalQuantity <= $availableQuantity) {
+            if ($currentQuantity < $availableQuantity) {
                 // Mettre à jour la quantité dans le panier en ajoutant 1
                 $updateQuery = "UPDATE panier SET quantity = quantity + 1 WHERE product_id = $productId";
                 $updateResult = mysqli_query($conn, $updateQuery);
@@ -135,15 +134,17 @@
                 if ($updateResult) {
                     header("Location: panier.php");
                     exit();
-                } else {
-                    echo 'Erreur lors de l\'incrémentation de la quantité.';
                 }
             } else {
-                echo 'Quantité non disponible en stock.';
+                $error = "Quantité non disponible en stock.";
+            }
+            if (!empty($error)) {
+                echo '<div class="error-message">' . $error . '</div>';
             }
         }
 
         // Traitement pour la décrémentation de la quantité
+        $error1 = "";
         if (isset($_POST['new_quantity_less'])) {
             $productId = $_POST['update_quantity'];
 
@@ -156,20 +157,23 @@
             // Vérifier si la quantité dans le panier est supérieure à zéro
             if ($currentQuantity > 1) {
                 // Mettre à jour la quantité dans le panier en soustrayant 1
-                $updateQuery = "UPDATE panier SET quantity = GREATEST(quantity - 1, 0) WHERE product_id = $productId";
+                $updateQuery = "UPDATE panier SET quantity = quantity - 1 WHERE product_id = $productId";
                 $updateResult = mysqli_query($conn, $updateQuery);
 
                 if ($updateResult) {
                     header("Location: panier.php");
                     exit();
-                } else {
-                    echo 'Erreur lors de la décrémentation de la quantité.';
                 }
             } else {
-                echo 'La quantité actuelle dans le panier est déjà de zéro.';
+                $error1 = "La quantité actuelle dans le panier est déjà de un (il est le minumun).";
+            }
+            if (!empty($error1)) {
+                echo '<div class="error-message">' . $error1 . '</div>';
             }
         }
     }
+    // Affichage du message d'erreur si une erreur est survenue
+
     ?>
     <button class="btnback"><a href="produit1.php">Retour aux produits</a></button>
 </body>
