@@ -19,7 +19,7 @@
                 <h1><a href="home.php">ShoppingPlanet</a></h1>
             </div>
             <div class="search-box">
-                <form>
+                <form method="GET" action="produit1.php">
                     <input type="search" id="search" name="search" placeholder="Rechercher des produits" />
                     <button id="submitsearch" type="submit" class="button" name="search">
                         <i class="fas fa-search"></i>
@@ -66,6 +66,8 @@
         session_start();
         // Inclure votre fichier de connexion à la base de données
         require_once('connection.php');
+
+
         $id = 1;
         // Récupérer les produits depuis la base de données
         $query = "SELECT * FROM products WHERE categories = 'Keyboards'";
@@ -245,5 +247,26 @@
         var itemCount = <?php echo $totalItems; ?>;
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('nombreProduitsPanier').innerText = itemCount;
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const productSections = document.querySelectorAll('.product');
+
+            searchInput.addEventListener('input', function(event) {
+                const searchText = event.target.value.toLowerCase();
+
+                productSections.forEach(function(section) {
+                    const products = section.querySelectorAll('.product-details');
+
+                    products.forEach(function(product) {
+                        const productName = product.querySelector('h4').innerText.toLowerCase();
+                        const displayStyle = productName.includes(searchText) ? 'block' : 'none';
+
+                        product.style.display = displayStyle;
+                    });
+                });
+            });
         });
     </script>

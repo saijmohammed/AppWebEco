@@ -96,9 +96,16 @@
         }
     }
     // Affichage du message d'erreur si une erreur est survenue
+
     if (!empty($error) || !empty($error1)) {
         echo '<div class="error-message">' . ($error ? $error : $error1) . '</div>';
+        echo '<script>
+            setTimeout(function(){
+                document.querySelector(".error-message").style.display = "none";
+            }, 3000);
+          </script>';
     }
+
 
 
     $currentUserId = 1; // Exemple d'ID utilisateur - à adapter
@@ -112,7 +119,7 @@
     $totalAmount = 0;
 
     if ($result && mysqli_num_rows($result) > 0) {
-        echo '<table>';
+        echo '<table class="table1">';
         echo '<tr>';
         echo '<th>Numéro du produit</th>';
         echo '<th>Photo</th>';
@@ -168,6 +175,7 @@
         echo '</table>';
 
         echo '<div class ="total-panier">';
+        echo '<h1>Total panier</h1>';
         echo '<table class="total-panier-table">';
         echo '<tr>';
         echo '<th>SOUS-TOTAL</th>';
