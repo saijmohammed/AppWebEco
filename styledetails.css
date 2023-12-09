@@ -1,90 +1,79 @@
 /* styledetails.css */
 
-/* Style pour la section des détails du produit */
+/* Styles pour le conteneur principal des détails du produit */
 .product-details {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-/* Style pour le titre du produit */
-.product-details h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-/* Style pour le conteneur de l'image */
-.image-container {
-  text-align: center;
-}
-
-/* Style pour l'image du produit */
-#product-image {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 15px;
-  border-radius: 8px;
+  background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Style pour les informations du produit */
+/* Styles pour le titre du produit */
+.product-details h2 {
+  font-size: 28px;
+  margin-top: 0;
+  color: #333;
+}
+
+/* Styles pour l'image du produit */
+.image-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#product-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour les informations du produit */
 .info-container {
-  margin-top: 15px;
-}
-
-/* Style pour le prix */
-.price {
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-/* Style pour la quantité */
-.quantity {
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
-/* Style pour le conteneur de la description */
-.description-container {
-  margin-bottom: 10px;
   display: flex;
-  /* align-items: center; */
+  flex-direction: column;
 }
 
-/* Style pour le titre de la description */
+.price,
+.quantity {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Styles pour la description du produit */
+.description-container {
+  margin-bottom: 20px;
+}
+
 .description-container h4 {
-  font-size: 18px;
-  margin-right: 10px;
+  margin: 5px 0;
+  color: #333;
 }
 
-/* Style pour la description du produit */
-.description-container p.description {
-  font-size: 16px;
+.description {
+  color: #666;
   line-height: 1.6;
 }
 
-/* Style pour les boutons */
+/* Styles pour le bouton de retour */
 .image-buttons {
   text-align: center;
-  margin-top: 20px;
 }
 
-/* Style pour le bouton de retour */
 .btnback {
-  padding: 10px 20px;
-  font-size: 16px;
-  text-decoration: none;
-  color: #fff;
   background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Style pour le bouton de retour au survol */
 .btnback:hover {
   background-color: #0056b3;
 }

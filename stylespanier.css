@@ -78,16 +78,14 @@ input[type="number"] {
   color: white;
 }
 
-.btnback:hover,
-.gopayment:hover {
+.btnback:hover {
   padding: 5px 10px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: scale(1.1);
 }
 
-.btnback:active,
-.gopayment:active {
+.btnback:active {
   transform: scale(0.9);
 }
 
@@ -155,4 +153,64 @@ input[type="number"] {
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+
+/* styledetails.css */
+
+/* Styles pour le conteneur du tableau */
+.total-panier {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  float: right; /* positionnement à droite */
+}
+
+/* Styles pour le tableau */
+.total-panier-table {
+  width: 100%;
+  border-collapse: collapse; /* Fusionne les bordures du tableau */
+  border: none; /* Supprime toutes les bordures */
+}
+
+/* Styles pour les cellules d'en-tête */
+.total-panier-table th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid black; /* Ajoute uniquement la bordure du bas */
+
+}
+
+/* Styles pour les cellules de données */
+.total-panier-table td {
+  padding: 10px;
+  border-bottom: 1px solid black; /* Ajoute uniquement la bordure du bas */
+}
+
+/* Styles pour le bouton */
+.gopayment {
+  background-color: #45d62e; /* couleur verte */
+  color: white;
+  border: none;
+  padding: 15px 30px; /* ajustement de la taille */
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  font-size: 14px; /* taille du texte */
+  font-family: Arial, sans-serif; /* police du texte */
+  font-weight: bold; /* poids du texte */
+  text-transform: uppercase; /* en majuscules */
+  position: relative; /* position relative */
+}
+
+.gopayment:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }

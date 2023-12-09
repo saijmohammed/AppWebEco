@@ -77,7 +77,7 @@
                 echo '<div class="image-container">';
                 echo '<img class="product-image" src="' . htmlspecialchars($row['product_image']) . '" alt="' . htmlspecialchars($row['product_name']) . '" />';
                 echo '</div>';
-                echo '<h4>Name product: ' . htmlspecialchars($row['product_name']) . '</h4>';
+                echo '<h4>' . htmlspecialchars($row['product_name']) . '</h4>';
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
@@ -85,7 +85,7 @@
                 echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
                 echo '<button class="addpanier" type="submit" name="add_to_cart" data-product-id="' . $row['id'] . '">Ajouter au Panier</button>';
                 echo '</form>';
-                echo '<button class="affdetails"><a href="details.php?id=' . $id . '">Voir les détails</a></button>';
+                echo '<button class="affdetails"><a class="stretched-link" href="details.php?id=' . $id . '">Voir les détails</a></button>';
                 echo '</div>';
                 echo '</div>';
                 $id++;
@@ -110,7 +110,7 @@
                 echo '<div class="image-container">';
                 echo '<img class="product-image" src="' . htmlspecialchars($row['product_image']) . '" alt="' . htmlspecialchars($row['product_name']) . '" />';
                 echo '</div>';
-                echo '<h4>Name product: ' . htmlspecialchars($row['product_name']) . '</h4>';
+                echo '<h4>' . htmlspecialchars($row['product_name']) . '</h4>';
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p>Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
@@ -144,7 +144,7 @@
                 echo '<div class="image-container">';
                 echo '<img class="product-image" src="' . htmlspecialchars($row['product_image']) . '" alt="' . htmlspecialchars($row['product_name']) . '" />';
                 echo '</div>';
-                echo '<h4>Name product: ' . htmlspecialchars($row['product_name']) . '</h4>';
+                echo '<h4>' . htmlspecialchars($row['product_name']) . '</h4>';
                 echo '<p class="price">Prix: ' . htmlspecialchars($row['price']) . ' $</p>';
                 echo '<p id="errorMessage" class="quantity">Quantité: ' . htmlspecialchars($row['quantitate']) . '</p>';
                 echo '<div class="button-container">';
